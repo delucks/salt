@@ -21,6 +21,7 @@ class SPMInfoTest(SPMCase):
         self.config = self._spm_config()
         self._spm_build_files(self.config)
 
+    @pytest.mark.slow_test(seconds=10)
     def test_spm_info(self):
         """
         test spm build

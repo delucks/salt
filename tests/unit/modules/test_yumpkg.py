@@ -953,6 +953,7 @@ class YumTestCase(TestCase, LoaderModuleMockMixin):
                     redirect_stderr=True,
                 )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_install_with_epoch(self):
         """
         Tests that we properly identify a version containing an epoch as an

@@ -6,6 +6,8 @@
 # Import Python libs
 from __future__ import absolute_import, print_function, unicode_literals
 
+import pytest
+
 # Import Salt Libs
 import salt.modules.localemod as localemod
 from salt.exceptions import CommandExecutionError
@@ -141,6 +143,7 @@ class LocalemodTestCase(TestCase, LoaderModuleMockMixin):
 
     @patch("salt.modules.localemod.dbus", MagicMock())
     @patch("salt.modules.localemod.log", MagicMock())
+    @pytest.mark.slow_test(seconds=1)
     def test_dbus_locale_parser_doesnot_matches(self):
         """
         Test dbus locale status parser does not matching the results.
@@ -398,6 +401,7 @@ class LocalemodTestCase(TestCase, LoaderModuleMockMixin):
     @patch("salt.modules.localemod.dbus", True)
     @patch("salt.utils.systemd.booted", MagicMock(return_value=True))
     @patch("salt.modules.localemod._localectl_set", MagicMock())
+    @pytest.mark.slow_test(seconds=1)
     def test_set_locale_with_systemd_and_dbus(self):
         """
         Test setting current system locale with systemd and dbus available.

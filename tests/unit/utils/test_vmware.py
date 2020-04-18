@@ -13,6 +13,7 @@ import logging
 import ssl
 import sys
 
+import pytest
 import salt.utils.vmware
 
 # Import Salt libraries
@@ -101,6 +102,7 @@ class GetClusterTestCase(TestCase):
         ):
             self.addCleanup(delattr, self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -126,6 +128,7 @@ class GetClusterTestCase(TestCase):
             self.mock_dc, name=mock_dc_name
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_traversal_spec_init(self):
         mock_dc_name = MagicMock()
         mock_traversal_spec = MagicMock()
@@ -341,6 +344,7 @@ class UpdateClusterTestCase(TestCase):
             self.mock_cluster_spec, modify=True
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_reconfigure_compute_resource_raise_no_permission(self):
         exc = vim.fault.NoPermission()
         exc.privilegeId = "Fake privilege"
@@ -451,6 +455,7 @@ class WaitForTaskTestCase(TestCase):
             "Not enough permissions. Required privilege: " "Fake privilege",
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_inner_loop_task_info_raise_vim_fault(self):
         exc = vim.fault.VimFault()
         exc.msg = "VimFault msg"
@@ -502,6 +507,7 @@ class WaitForTaskTestCase(TestCase):
         self.assertEqual(prop_mock_state.call_count, 4)
         self.assertEqual(prop_mock_result.call_count, 1)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_info_state_queued_continues_loop(self):
         mock_task = MagicMock()
         # The 'fake' values are required to match all the lookups and end the
@@ -657,6 +663,7 @@ class GetMorsWithPropertiesTestCase(TestCase):
         )
         self.assertEqual(ret, [])
 
+    @pytest.mark.slow_test(seconds=1)
     def test_local_properties_set(self):
         obj_mock = MagicMock()
         # obj.propSet
@@ -1107,6 +1114,7 @@ class GetContentTestCase(TestCase):
         self.filter_spec_ret_mock = MagicMock()
         self.filter_spec_mock = MagicMock(return_value=self.filter_spec_ret_mock)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_empty_container_ref(self):
         with patch("salt.utils.vmware.get_root_folder", self.get_root_folder_mock):
             salt.utils.vmware.get_content(self.si_mock, self.obj_type_mock)
@@ -1115,6 +1123,7 @@ class GetContentTestCase(TestCase):
             self.root_folder_mock, [self.obj_type_mock], True
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_defined_container_ref(self):
         container_ref_mock = MagicMock()
         with patch("salt.utils.vmware.get_root_folder", self.get_root_folder_mock):
@@ -1188,6 +1197,7 @@ class GetContentTestCase(TestCase):
                 salt.utils.vmware.get_content(self.si_mock, self.obj_type_mock)
         self.assertEqual(excinfo.exception.strerror, "RuntimeFault msg")
 
+    @pytest.mark.slow_test(seconds=1)
     def test_destroy_raise_no_permission(self):
         exc = vim.fault.NoPermission()
         exc.privilegeId = "Fake privilege"
@@ -1213,6 +1223,7 @@ class GetContentTestCase(TestCase):
                 salt.utils.vmware.get_content(self.si_mock, self.obj_type_mock)
         self.assertEqual(excinfo.exception.strerror, "VimFault msg")
 
+    @pytest.mark.slow_test(seconds=1)
     def test_destroy_raise_runtime_fault(self):
         exc = vmodl.RuntimeFault()
         exc.msg = "RuntimeFault msg"
@@ -1302,6 +1313,7 @@ class GetContentTestCase(TestCase):
             salt.utils.vmware.get_content(self.si_mock, self.obj_type_mock)
         self.assertEqual(excinfo.exception.strerror, "RuntimeFault msg")
 
+    @pytest.mark.slow_test(seconds=1)
     def test_local_properties_set(self):
         container_ref_mock = MagicMock()
         with patch(self.traversal_spec_method_name, self.traversal_spec_mock):
@@ -2390,6 +2402,7 @@ class GetServiceInstanceFromManagedObjectTestCase(TestCase):
             "[%s] Retrieving service instance from managed object", "<unnamed>"
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_name_parameter_passed_in(self):
         mock_trace = MagicMock()
         type(salt.utils.vmware.log).trace = mock_trace
@@ -2525,6 +2538,7 @@ class GetDatacenterTestCase(TestCase):
         self.mock_si = MagicMock()
         self.mock_dc = MagicMock()
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_datacenters_call(self):
         mock_get_datacenters = MagicMock(return_value=[MagicMock()])
         with patch("salt.utils.vmware.get_datacenters", mock_get_datacenters):
@@ -2672,6 +2686,7 @@ class GetDvssTestCase(TestCase):
         ):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -2766,6 +2781,7 @@ class GetNetworkFolderTestCase(TestCase):
         ):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -2849,6 +2865,7 @@ class CreateDvsTestCase(TestCase):
         ):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -2964,6 +2981,7 @@ class UpdateDvsTestCase(TestCase):
         ):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3037,6 +3055,7 @@ class SetDvsNetworkResourceManagementEnabledTestCase(TestCase):
         for attr in ("mock_dvs_ref", "mock_enabled"):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3138,6 +3157,7 @@ class GetDvportgroupsTestCase(TestCase):
             "Parent has to be either a datacenter, or a " "distributed virtual switch",
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3249,6 +3269,7 @@ class GetUplinkDvportgroupTestCase(TestCase):
         ):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3321,6 +3342,7 @@ class CreateDvportgroupTestCase(TestCase):
         for attr in ("mock_pg_spec", "mock_dvs_ref", "mock_task", "mock_wait_for_task"):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3399,6 +3421,7 @@ class UpdateDvportgroupTestCase(TestCase):
         for attr in ("mock_pg_spec", "mock_pg_ref", "mock_task", "mock_wait_for_task"):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3476,6 +3499,7 @@ class RemoveDvportgroupTestCase(TestCase):
         for attr in ("mock_pg_ref", "mock_task", "mock_wait_for_task"):
             delattr(self, attr)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_managed_object_name_call(self):
         mock_get_managed_object_name = MagicMock()
         with patch(
@@ -3484,6 +3508,7 @@ class RemoveDvportgroupTestCase(TestCase):
             salt.utils.vmware.remove_dvportgroup(self.mock_pg_ref)
         mock_get_managed_object_name.assert_called_once_with(self.mock_pg_ref)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_destroy_task(self):
         salt.utils.vmware.remove_dvportgroup(self.mock_pg_ref)
         self.mock_pg_ref.Destroy_Task.assert_called_once_with()
@@ -3594,6 +3619,7 @@ class GetHostsTestCase(TestCase):
             self.mock_si, vim.HostSystem, container_ref=mock_dc, property_list=["name"]
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_si_datacenter_name_and_cluster_name(self):
         mock_dc = MagicMock()
         mock_get_dc = MagicMock(return_value=mock_dc)
@@ -3637,6 +3663,7 @@ class GetHostsTestCase(TestCase):
             )
         self.assertEqual(res, [self.mock_host1, self.mock_host2])
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_all_host_flag_not_set_and_no_host_names(self):
         with patch(
             "salt.utils.vmware.get_mors_with_properties",
@@ -4183,6 +4210,7 @@ class GetAssignedLicensesTestCase(TestCase):
             )
         self.assertEqual(excinfo.exception.strerror, "RuntimeFault msg")
 
+    @pytest.mark.slow_test(seconds=1)
     def test_valid_assignments(self):
         ret = salt.utils.vmware.get_assigned_licenses(
             self.mock_si, self.mock_entity_ref, "fake_entity_name"
@@ -4348,6 +4376,7 @@ class AssignLicenseTestCase(TestCase):
             self.mock_moid, self.mock_lic_key, "fake_license_name"
         )
 
+    @pytest.mark.slow_test(seconds=1)
     def test_update_assigned_licenses_raises_no_permission(self):
         exc = vim.fault.NoPermission()
         exc.privilegeId = "Fake privilege"
@@ -4393,6 +4422,7 @@ class AssignLicenseTestCase(TestCase):
             )
         self.assertEqual(excinfo.exception.strerror, "RuntimeFault msg")
 
+    @pytest.mark.slow_test(seconds=1)
     def test_valid_assignments(self):
         ret = salt.utils.vmware.assign_license(
             self.mock_si,
@@ -4963,6 +4993,7 @@ class RegisterVirtualMachineTestCase(TestCase):
         self.vm_folder_object = MagicMock(RegisterVM_Task=self.mock_vm_register_task)
         self.datacenter = MagicMock(vmFolder=self.vm_folder_object)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_register_vm_pool_task_call(self):
         salt.utils.vmware.register_vm(
             self.datacenter,
@@ -4972,6 +5003,7 @@ class RegisterVirtualMachineTestCase(TestCase):
         )
         self.assert_called_once(self.mock_vm_register_task)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_register_vm_host_task_call(self):
         salt.utils.vmware.register_vm(
             self.datacenter,

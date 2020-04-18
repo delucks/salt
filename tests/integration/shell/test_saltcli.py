@@ -85,6 +85,7 @@ class TestRetcode(object):
         )
         assert ret.exitcode == salt.defaults.exitcodes.EX_STATE_COMPILER_ERROR, ret
 
+    @pytest.mark.slow_test(seconds=240)
     def test_salt_error(self, salt_cli):
         """
         Test that we return the expected retcode when a minion function raises
@@ -171,6 +172,7 @@ class TestRetcode(object):
         ret = salt_call_cli.run("test.echo", "{foo: bar, success: False}")
         assert ret.exitcode == salt.defaults.exitcodes.EX_GENERIC, ret
 
+    @pytest.mark.slow_test(seconds=30)
     def test_missing_minion(self, salt_cli, salt_master):
         """
         Test that a minion which doesn't respond results in a nonzeo exit code
@@ -194,6 +196,7 @@ class TestRetcode(object):
                         "Failed to remove %s, this may affect other tests: %s", bad, exc
                     )
 
+    @pytest.mark.slow_test(seconds=10)
     def test_exit_status_unknown_argument(self, salt_cli):
         """
         Ensure correct exit status when an unknown argument is passed to salt CLI.
@@ -203,6 +206,7 @@ class TestRetcode(object):
         assert "Usage" in ret.stderr
         assert "no such option: --unknown-argument" in ret.stderr
 
+    @pytest.mark.slow_test(seconds=10)
     def test_exit_status_correct_usage(self, salt_cli):
         """
         Ensure correct exit status when salt CLI starts correctly.

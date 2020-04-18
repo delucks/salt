@@ -15,6 +15,7 @@ class TestGrainsCore(ModuleCase):
     Test the core grains grains
     """
 
+    @pytest.mark.slow_test(seconds=30)
     def test_grains_passed_to_custom_grain(self):
         """
         test if current grains are passed to grains module functions that have a grains argument

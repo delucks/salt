@@ -41,6 +41,7 @@ class HostTest(ModuleCase, SaltReturnAssertsMixin):
         self.addCleanup(self.__clear_hosts)
         super(HostTest, self).setUp()
 
+    @pytest.mark.slow_test(seconds=30)
     def test_present(self):
         """
         host.present

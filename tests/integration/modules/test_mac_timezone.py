@@ -80,6 +80,7 @@ class MacTimezoneModuleTest(ModuleCase):
             "Invalid Date/Time Format: 13/12/2014",
         )
 
+    @pytest.mark.slow_test(seconds=10)
     def test_get_time(self):
         """
         Test timezone.get_time
@@ -170,6 +171,7 @@ class MacTimezoneModuleTest(ModuleCase):
         )
         self.assertEqual(self.run_function("timezone.get_zonecode"), "WAKT")
 
+    @pytest.mark.slow_test(seconds=10)
     def test_list_zones(self):
         """
         Test timezone.list_zones

@@ -30,6 +30,7 @@ class LoaderGrainsTest(ModuleCase):
     #    self.opts['disable_modules'] = ['pillar']
     #    self.opts['grains'] = grains(self.opts)
 
+    @pytest.mark.slow_test(seconds=120)
     def test_grains_overwrite(self):
         # Force a grains sync
         self.run_function("saltutil.sync_grains")

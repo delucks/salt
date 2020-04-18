@@ -8,6 +8,8 @@ import random
 import string
 import sys
 
+import pytest
+
 # Import Salt libs
 import salt.config
 import salt.states.boto_vpc as boto_vpc
@@ -169,6 +171,7 @@ class BotoVpcTestCase(BotoVpcStateTestCaseBase, BotoVpcTestCaseMixin):
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_present_when_vpc_does_not_exist(self):
         """
         Tests present on a VPC that does not exist.
@@ -188,6 +191,7 @@ class BotoVpcTestCase(BotoVpcStateTestCaseBase, BotoVpcTestCaseMixin):
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=1)
     def test_present_when_vpc_exists(self):
         vpc = self._create_vpc(name="test")
         vpc_present_result = self.salt_states["boto_vpc.present"]("test", cidr_block)
@@ -212,6 +216,7 @@ class BotoVpcTestCase(BotoVpcStateTestCaseBase, BotoVpcTestCaseMixin):
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_absent_when_vpc_does_not_exist(self):
         """
         Tests absent on a VPC that does not exist.
@@ -226,6 +231,7 @@ class BotoVpcTestCase(BotoVpcStateTestCaseBase, BotoVpcTestCaseMixin):
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_absent_when_vpc_exists(self):
         vpc = self._create_vpc(name="test")
         with patch.dict(botomod.__salt__, self.funcs):
@@ -256,11 +262,13 @@ class BotoVpcResourceTestCaseMixin(BotoVpcTestCaseMixin):
         _create = getattr(self, "_create_" + self.resource_type)
         _create(vpc_id=vpc_id, name=name, **self.extra_kwargs)
 
+    @pytest.mark.slow_test(seconds=60)
     @skipIf(
         sys.version_info > (3, 6),
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_present_when_resource_does_not_exist(self):
         """
         Tests present on a resource that does not exist.
@@ -278,11 +286,13 @@ class BotoVpcResourceTestCaseMixin(BotoVpcTestCaseMixin):
         )
         self.assertTrue(exists)
 
+    @pytest.mark.slow_test(seconds=60)
     @skipIf(
         sys.version_info > (3, 6),
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_present_when_resource_exists(self):
         vpc = self._create_vpc(name="test")
         self._create_resource(vpc_id=vpc.id, name="test")
@@ -308,11 +318,13 @@ class BotoVpcResourceTestCaseMixin(BotoVpcTestCaseMixin):
             self.assertFalse(resource_present_result["result"])
             self.assertTrue("Mocked error" in resource_present_result["comment"])
 
+    @pytest.mark.slow_test(seconds=60)
     @skipIf(
         sys.version_info > (3, 6),
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_absent_when_resource_does_not_exist(self):
         """
         Tests absent on a resource that does not exist.
@@ -324,11 +336,13 @@ class BotoVpcResourceTestCaseMixin(BotoVpcTestCaseMixin):
         self.assertTrue(resource_absent_result["result"])
         self.assertEqual(resource_absent_result["changes"], {})
 
+    @pytest.mark.slow_test(seconds=60)
     @skipIf(
         sys.version_info > (3, 6),
         "Disabled for 3.7+ pending https://github.com/spulec/moto/issues/1706.",
     )
     @mock_ec2_deprecated
+    @pytest.mark.slow_test(seconds=60)
     def test_absent_when_resource_exists(self):
         vpc = self._create_vpc(name="test")
         self._create_resource(vpc_id=vpc.id, name="test")

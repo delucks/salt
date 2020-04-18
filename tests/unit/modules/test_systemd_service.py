@@ -8,6 +8,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import os
 
+import pytest
+
 # Import Salt Libs
 import salt.modules.systemd_service as systemd
 import salt.utils.systemd
@@ -242,6 +244,7 @@ class SystemdTestCase(TestCase, LoaderModuleMockMixin):
             with patch.object(systemd, "show", mock):
                 self.assertDictEqual(systemd.execs(), {"a": "c", "b": "c"})
 
+    @pytest.mark.slow_test(seconds=10)
     def test_status(self):
         """
         Test to confirm that the function retries when the service is in the

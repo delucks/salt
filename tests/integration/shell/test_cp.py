@@ -33,6 +33,7 @@ def dest_testfile():
 
 
 @pytest.mark.windows_whitelisted
+@pytest.mark.slow_test(seconds=240)
 def test_cp_testfile(salt_minion, salt_cp_cli, source_testfile, dest_testfile):
     """
     test salt-cp

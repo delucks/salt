@@ -18,6 +18,7 @@ class NTPTest(ModuleCase):
     """
 
     @pytest.mark.destructive_test
+    @pytest.mark.slow_test(seconds=30)
     def test_ntp_set_servers(self):
         """
         test ntp get and set servers

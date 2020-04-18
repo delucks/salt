@@ -196,6 +196,7 @@ class ParserBase(object):
         # Check log file logger log level
         self.assertEqual(self.log_setup.log_level_logfile, default_log_level)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_log_level_config(self):
         """
         Tests that log level match the configured value
@@ -857,6 +858,7 @@ class SaltKeyOptionParserTestCase(ParserBase, TestCase):
         # Check log file logger log level
         self.assertEqual(self.log_setup.log_level_logfile, default_log_level)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_get_log_level_config(self):
         """
         Tests that log level set in config is ignored

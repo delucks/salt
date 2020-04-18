@@ -13,6 +13,8 @@ Tests for the zfs utils library
 # Import Python libs
 from __future__ import absolute_import, print_function, unicode_literals
 
+import pytest
+
 # Import Salt Execution module to test
 import salt.utils.zfs as zfs
 
@@ -64,6 +66,7 @@ class ZfsUtilsTestCase(TestCase):
                 ):
                     self.assertEqual(zfs.property_data_zpool(), self.pmap_zpool)
 
+    @pytest.mark.slow_test(seconds=1)
     def test_property_data_zfs(self):
         """
         Test parsing of zfs get output
